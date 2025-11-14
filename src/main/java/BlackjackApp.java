@@ -11,6 +11,7 @@ public class BlackjackApp {
 
     static void play() {
         Deck deck = new Deck();
+        deck.shuffle();
 
         List<Card> playerHand = new ArrayList<>();
         List<Card> dealerHand = new ArrayList<>();

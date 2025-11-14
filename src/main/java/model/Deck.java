@@ -17,7 +17,6 @@ public class Deck {
                 cards.add(new Card(rank, suit));
             }
         }
-        shuffle();
     }
 
     public void shuffle() {
