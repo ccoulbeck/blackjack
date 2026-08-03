@@ -1,1 +1,4 @@
-﻿Console.WriteLine("Hello, World!");
+﻿using Blackjack.Game;
+
+var game = new BlackjackGame();
+game.Start();
