@@ -20,5 +20,34 @@ public class BlackjackGame
         {
             _playerHand.Add(_deck.Draw());
         }
+
+        PlayerTurn();
+    }
+
+    private void PlayerTurn()
+    {
+        Console.WriteLine($"Value: {_playerHand.Value}");
+
+        while (_playerHand.Value < 21)
+        {
+            Console.WriteLine("Hit (h) or stand (s)?");
+
+            switch ((Console.ReadLine() ?? "").Trim().ToLowerInvariant())
+            {
+                case "h":
+                    _playerHand.Add(_deck.Draw());
+                    break;
+                case "s":
+                    return;
+                default:
+                    Console.WriteLine("Invalid input. Enter 'h' or 's'");
+                    break;
+            }
+
+            Console.WriteLine($"Value: {_playerHand.Value}");
+        }
+
+        if (_playerHand.IsBust)
+            Console.WriteLine("Bust");
     }
 }
