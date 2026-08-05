@@ -6,6 +6,7 @@ public class BlackjackGame
 {
     private readonly Deck _deck = new();
     private readonly Hand _playerHand = new();
+    private readonly Hand _dealerHand = new();
 
     public void Start()
     {
@@ -22,6 +23,17 @@ public class BlackjackGame
         }
 
         PlayerTurn();
+
+        DealerTurn();
+    }
+
+    private void DealerTurn()
+    {
+        while (_dealerHand.Total < 17)
+        {
+            _dealerHand.Add(_deck.Draw());
+            Console.WriteLine($"Total: {_dealerHand.Total}");
+        }
     }
 
     private void PlayerTurn()
