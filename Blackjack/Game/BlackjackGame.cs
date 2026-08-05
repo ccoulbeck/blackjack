@@ -42,7 +42,7 @@ public class BlackjackGame
         }
 
         if (_dealerHand.Total < 21)
-            Console.WriteLine($"Dealer stands with {_dealerHand.Total}");
+            Console.WriteLine($"Dealer stands at {_dealerHand.Total}");
     }
 
     private void PlayerTurn()
