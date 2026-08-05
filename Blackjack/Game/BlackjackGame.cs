@@ -38,6 +38,7 @@ public class BlackjackGame
                     _playerHand.Add(_deck.Draw());
                     break;
                 case "s":
+                    Console.WriteLine($"Player stands at {_playerHand.Total}");
                     return;
                 default:
                     Console.WriteLine("Invalid input. Enter 'h' or 's'");
