@@ -16,10 +16,11 @@ public class BlackjackGame
 
         _deck.Shuffle();
 
-        Console.WriteLine("Dealing cards to Player...");
+        Console.WriteLine("Dealing initial cards...");
         for (int i = 0; i < 2; i++)
         {
             _playerHand.Add(_deck.Draw());
+            _dealerHand.Add(_deck.Draw());
         }
 
         PlayerTurn();
@@ -29,16 +30,26 @@ public class BlackjackGame
 
     private void DealerTurn()
     {
+        Console.WriteLine("-----------------------------------------");
+
+        Console.WriteLine($"Dealer total: {_dealerHand.Total}");
+
         while (_dealerHand.Total < 17)
         {
             _dealerHand.Add(_deck.Draw());
-            Console.WriteLine($"Total: {_dealerHand.Total}");
+            Console.WriteLine("Dealer hits");
+            Console.WriteLine($"Dealer total: {_dealerHand.Total}");
         }
+
+        if (_dealerHand.Total < 21)
+            Console.WriteLine($"Dealer stands with {_dealerHand.Total}");
     }
 
     private void PlayerTurn()
     {
-        Console.WriteLine($"Total: {_playerHand.Total}");
+        Console.WriteLine("-----------------------------------------");
+
+        Console.WriteLine($"Player total: {_playerHand.Total}");
 
         while (_playerHand.Total < 21)
         {
@@ -57,7 +68,7 @@ public class BlackjackGame
                     break;
             }
 
-            Console.WriteLine($"Total: {_playerHand.Total}");
+            Console.WriteLine($"Player total: {_playerHand.Total}");
         }
 
         if (_playerHand.IsBust)
