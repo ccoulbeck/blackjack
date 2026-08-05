@@ -26,9 +26,9 @@ public class BlackjackGame
 
     private void PlayerTurn()
     {
-        Console.WriteLine($"Value: {_playerHand.Value}");
+        Console.WriteLine($"Total: {_playerHand.Total}");
 
-        while (_playerHand.Value < 21)
+        while (_playerHand.Total < 21)
         {
             Console.WriteLine("Hit (h) or stand (s)?");
 
@@ -44,7 +44,7 @@ public class BlackjackGame
                     break;
             }
 
-            Console.WriteLine($"Value: {_playerHand.Value}");
+            Console.WriteLine($"Total: {_playerHand.Total}");
         }
 
         if (_playerHand.IsBust)

@@ -10,20 +10,20 @@ public class Hand
         _cards.Add(card);
     }
 
-    public int Value
+    public int Total
     {
         get
         {
-            int value = 0;
+            int total = 0;
 
             foreach (var card in _cards)
             {
-                value += card.Value;
+                total += card.Value;
             }
 
-            return value;
+            return total;
         }
     }
 
-    public bool IsBust => Value > 21;
+    public bool IsBust => Total > 21;
 }
