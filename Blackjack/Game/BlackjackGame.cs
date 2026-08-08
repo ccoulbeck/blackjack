@@ -33,6 +33,9 @@ public class BlackjackGame
         }
 
         DealerTurn();
+
+        bool playerWins = _playerHand.Total > _dealerHand.Total;
+        Console.WriteLine(playerWins ? "Player wins" : "Dealer wins");
     }
 
     private void DealerTurn()
