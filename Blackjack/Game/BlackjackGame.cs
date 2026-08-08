@@ -31,6 +31,11 @@ public class BlackjackGame
             Console.WriteLine("Dealer wins");
             return;
         }
+        if (_playerHand.Total == 21)
+        {
+            Console.WriteLine("Player wins");
+            return;
+        }
 
         DealerTurn();
 
