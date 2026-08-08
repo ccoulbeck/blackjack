@@ -16,7 +16,6 @@ public class BlackjackGame
 
         _deck.Shuffle();
 
-        Console.WriteLine("Dealing initial cards...");
         for (int i = 0; i < 2; i++)
         {
             _playerHand.Add(_deck.Draw());
@@ -45,8 +44,6 @@ public class BlackjackGame
 
     private void DealerTurn()
     {
-        Console.WriteLine("-----------------------------------------");
-
         Console.WriteLine($"Dealer total: {_dealerHand.Total}");
 
         while (_dealerHand.Total < 17)
@@ -62,8 +59,6 @@ public class BlackjackGame
 
     private void PlayerTurn()
     {
-        Console.WriteLine("-----------------------------------------");
-
         Console.WriteLine($"Player total: {_playerHand.Total}");
 
         while (_playerHand.Total < 21)
