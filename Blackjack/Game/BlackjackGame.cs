@@ -25,6 +25,13 @@ public class BlackjackGame
 
         PlayerTurn();
 
+        if (_playerHand.IsBust)
+        {
+            Console.WriteLine("Bust");
+            Console.WriteLine("Dealer wins");
+            return;
+        }
+
         DealerTurn();
     }
 
@@ -70,8 +77,5 @@ public class BlackjackGame
 
             Console.WriteLine($"Player total: {_playerHand.Total}");
         }
-
-        if (_playerHand.IsBust)
-            Console.WriteLine("Bust");
     }
 }
