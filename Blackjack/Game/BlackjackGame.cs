@@ -38,6 +38,13 @@ public class BlackjackGame
 
         DealerTurn();
 
+        if (_dealerHand.IsBust)
+        {
+            Console.WriteLine("Bust");
+            Console.WriteLine("Player wins");
+            return;
+        }
+
         bool playerWins = _playerHand.Total > _dealerHand.Total;
         Console.WriteLine(playerWins ? "Player wins" : "Dealer wins");
     }
