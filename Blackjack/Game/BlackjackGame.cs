@@ -45,6 +45,12 @@ public class BlackjackGame
             return;
         }
 
+        if (_playerHand.Total == _dealerHand.Total)
+        {
+            Console.WriteLine("Push");
+            return;
+        }
+
         bool playerWins = _playerHand.Total > _dealerHand.Total;
         Console.WriteLine(playerWins ? "Player wins" : "Dealer wins");
     }
