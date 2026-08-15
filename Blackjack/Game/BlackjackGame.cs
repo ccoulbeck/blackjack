@@ -26,35 +26,44 @@ public class BlackjackGame
 
         PlayerTurn();
 
-        if (_playerHand.IsBust)
+        if (!_playerHand.IsBust && _playerHand.Total != Blackjack)
         {
-            Console.WriteLine("Bust");
-            Console.WriteLine("Dealer wins");
-            return;
-        }
-        if (_playerHand.Total == Blackjack)
-        {
-            Console.WriteLine("Player wins");
-            return;
+            DealerTurn();
         }
 
-        DealerTurn();
+        GameResult result = DetermineWinner();
+
+        switch (result)
+        {
+            case GameResult.PlayerWins:
+                Console.WriteLine("Player wins");
+                break;
+            case GameResult.DealerWins:
+                Console.WriteLine("Dealer wins");
+                break;
+            case GameResult.Push:
+                Console.WriteLine("Push");
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private GameResult DetermineWinner()
+    {
+        if (_playerHand.IsBust)
+            return GameResult.DealerWins;
 
         if (_dealerHand.IsBust)
-        {
-            Console.WriteLine("Bust");
-            Console.WriteLine("Player wins");
-            return;
-        }
+            return GameResult.PlayerWins;
 
-        if (_playerHand.Total == _dealerHand.Total)
-        {
-            Console.WriteLine("Push");
-            return;
-        }
+        if (_playerHand.Total > _dealerHand.Total)
+            return GameResult.PlayerWins;
 
-        bool playerWins = _playerHand.Total > _dealerHand.Total;
-        Console.WriteLine(playerWins ? "Player wins" : "Dealer wins");
+        if (_playerHand.Total < _dealerHand.Total)
+            return GameResult.DealerWins;
+
+        return GameResult.Push;
     }
 
     private void DealerTurn()
