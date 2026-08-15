@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Diagnostics;
 using Blackjack.Models;
 
 namespace Blackjack.Game;
@@ -12,12 +10,20 @@ public class BlackjackGame
     private readonly Hand _playerHand = new();
     private readonly Hand _dealerHand = new();
 
-    public void Start()
-    {
-        Console.WriteLine("+---------------------------------------+");
-        Console.WriteLine("|               Blackjack               |");
-        Console.WriteLine("+---------------------------------------+");
+    public int PlayerTotal => _playerHand.Total;
 
+    public int DealerTotal => _dealerHand.Total;
+
+    public bool PlayerTurnComplete =>
+        _playerHand.IsBust ||
+        _playerHand.Total == Blackjack;
+
+    public bool PlayerIsBust => _playerHand.IsBust;
+
+    public bool PlayerHasBlackjack => _playerHand.Total == Blackjack;
+
+    public void InitialiseNewRound()
+    {
         _deck.Shuffle();
 
         for (int i = 0; i < 2; i++)
@@ -25,33 +31,20 @@ public class BlackjackGame
             _playerHand.Add(_deck.Draw());
             _dealerHand.Add(_deck.Draw());
         }
-
-        PlayerTurn();
-
-        if (!_playerHand.IsBust && _playerHand.Total != Blackjack)
-        {
-            DealerTurn();
-        }
-
-        GameResult result = DetermineWinner();
-
-        switch (result)
-        {
-            case GameResult.PlayerWins:
-                Console.WriteLine("Player wins");
-                break;
-            case GameResult.DealerWins:
-                Console.WriteLine("Dealer wins");
-                break;
-            case GameResult.Push:
-                Console.WriteLine("Push");
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
     }
 
-    private GameResult DetermineWinner()
+    public void Hit()
+    {
+        _playerHand.Add(_deck.Draw());
+    }
+
+    public void PlayDealerTurn()
+    {
+        while (_dealerHand.Total < DealerStandTotal)
+            _dealerHand.Add(_deck.Draw());
+    }
+
+    public GameResult DetermineWinner()
     {
         if (_playerHand.IsBust)
             return GameResult.DealerWins;
@@ -66,62 +59,5 @@ public class BlackjackGame
             return GameResult.DealerWins;
 
         return GameResult.Push;
-    }
-
-    private void DealerTurn()
-    {
-        Console.WriteLine($"Dealer total: {_dealerHand.Total}");
-
-        while (_dealerHand.Total < DealerStandTotal)
-        {
-            _dealerHand.Add(_deck.Draw());
-            Console.WriteLine("Dealer hits");
-            Console.WriteLine($"Dealer total: {_dealerHand.Total}");
-        }
-
-        if (_dealerHand.Total < Blackjack)
-            Console.WriteLine($"Dealer stands at {_dealerHand.Total}");
-    }
-
-    private static PlayerAction ReadPlayerAction()
-    {
-        while (true)
-        {
-            Console.WriteLine("Hit (h) or stand (s)?");
-
-            var input = Console.ReadLine()?.Trim().ToLowerInvariant();
-
-            switch (input)
-            {
-                case "h":
-                    return PlayerAction.Hit;
-                case "s":
-                    return PlayerAction.Stand;
-                default:
-                    Console.WriteLine("Invalid input. Enter");
-                    break;
-            }
-
-        }
-    }
-
-    private void PlayerTurn()
-    {
-        Console.WriteLine($"Player total: {_playerHand.Total}");
-
-        while (_playerHand.Total < Blackjack)
-        {
-            var action = ReadPlayerAction();
-
-            if (action == PlayerAction.Stand)
-            {
-                Console.WriteLine($"Player stands at {_playerHand.Total}");
-                return;
-            }
-
-            _playerHand.Add(_deck.Draw());
-
-            Console.WriteLine($"Player total: {_playerHand.Total}");
-        }
     }
 }
