@@ -4,6 +4,8 @@ namespace Blackjack.Game;
 
 public class BlackjackGame
 {
+    private const int Blackjack = 21;
+    private const int DealerStandTotal = 17;
     private readonly Deck _deck = new();
     private readonly Hand _playerHand = new();
     private readonly Hand _dealerHand = new();
@@ -30,7 +32,7 @@ public class BlackjackGame
             Console.WriteLine("Dealer wins");
             return;
         }
-        if (_playerHand.Total == 21)
+        if (_playerHand.Total == Blackjack)
         {
             Console.WriteLine("Player wins");
             return;
@@ -59,14 +61,14 @@ public class BlackjackGame
     {
         Console.WriteLine($"Dealer total: {_dealerHand.Total}");
 
-        while (_dealerHand.Total < 17)
+        while (_dealerHand.Total < DealerStandTotal)
         {
             _dealerHand.Add(_deck.Draw());
             Console.WriteLine("Dealer hits");
             Console.WriteLine($"Dealer total: {_dealerHand.Total}");
         }
 
-        if (_dealerHand.Total < 21)
+        if (_dealerHand.Total < Blackjack)
             Console.WriteLine($"Dealer stands at {_dealerHand.Total}");
     }
 
@@ -74,7 +76,7 @@ public class BlackjackGame
     {
         Console.WriteLine($"Player total: {_playerHand.Total}");
 
-        while (_playerHand.Total < 21)
+        while (_playerHand.Total < Blackjack)
         {
             Console.WriteLine("Hit (h) or stand (s)?");
 
