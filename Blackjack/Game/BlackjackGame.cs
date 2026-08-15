@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Diagnostics;
 using Blackjack.Models;
 
 namespace Blackjack.Game;
@@ -81,26 +83,43 @@ public class BlackjackGame
             Console.WriteLine($"Dealer stands at {_dealerHand.Total}");
     }
 
+    private static PlayerAction ReadPlayerAction()
+    {
+        while (true)
+        {
+            Console.WriteLine("Hit (h) or stand (s)?");
+
+            var input = Console.ReadLine()?.Trim().ToLowerInvariant();
+
+            switch (input)
+            {
+                case "h":
+                    return PlayerAction.Hit;
+                case "s":
+                    return PlayerAction.Stand;
+                default:
+                    Console.WriteLine("Invalid input. Enter");
+                    break;
+            }
+
+        }
+    }
+
     private void PlayerTurn()
     {
         Console.WriteLine($"Player total: {_playerHand.Total}");
 
         while (_playerHand.Total < Blackjack)
         {
-            Console.WriteLine("Hit (h) or stand (s)?");
+            var action = ReadPlayerAction();
 
-            switch ((Console.ReadLine() ?? "").Trim().ToLowerInvariant())
+            if (action == PlayerAction.Stand)
             {
-                case "h":
-                    _playerHand.Add(_deck.Draw());
-                    break;
-                case "s":
-                    Console.WriteLine($"Player stands at {_playerHand.Total}");
-                    return;
-                default:
-                    Console.WriteLine("Invalid input. Enter 'h' or 's'");
-                    break;
+                Console.WriteLine($"Player stands at {_playerHand.Total}");
+                return;
             }
+
+            _playerHand.Add(_deck.Draw());
 
             Console.WriteLine($"Player total: {_playerHand.Total}");
         }
