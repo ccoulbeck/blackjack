@@ -5,56 +5,7 @@ var game = new BlackjackGame();
 
 PrintHeader();
 
-game.InitialiseNewRound();
-
-Console.WriteLine($"Player total: {game.PlayerTotal}");
-
-while (!game.PlayerTurnComplete)
-{
-    var action = ReadPlayerAction();
-
-    if (action == PlayerAction.Stand)
-    {
-        Console.WriteLine($"Player stands at {game.PlayerTotal}");
-        break;
-    }
-
-    game.Hit();
-
-    if (game.PlayerIsBust)
-    {
-        Console.WriteLine($"Player busts at {game.PlayerTotal}");
-        break;
-    }
-    else
-        Console.WriteLine($"Player total: {game.PlayerTotal}");
-}
-
-if (!game.PlayerIsBust && !game.PlayerHasBlackjack)
-{
-    Console.WriteLine($"Dealer total: {game.DealerTotal}");
-
-    var actions = game.PlayDealerTurn();
-
-    foreach (var (action, total) in actions)
-    {
-        switch (action)
-        {
-            case PlayerAction.Hit:
-                Console.WriteLine("Dealer hits");
-                Console.WriteLine($"Dealer total: {total}");
-                break;
-            case PlayerAction.Stand:
-                Console.WriteLine($"Dealer stands at {total}");
-                break;
-            case PlayerAction.Bust:
-                Console.WriteLine($"Dealer busts at {total}");
-                break;
-        }
-    }
-}
-
-GameResult result = game.DetermineWinner();
+var result = PlayRound(game);
 
 switch (result)
 {
@@ -95,4 +46,64 @@ static PlayerAction ReadPlayerAction()
                 break;
         }
     }
+}
+
+static GameResult PlayRound(BlackjackGame game)
+{
+    game.InitialiseNewRound();
+
+    if (game.PlayerHasBlackjack)
+    {
+        Console.WriteLine("Player has blackjack");
+        return game.DetermineWinner();
+    }
+
+    Console.WriteLine($"Player total: {game.PlayerTotal}");
+
+    while (!game.PlayerTurnComplete)
+    {
+        var action = ReadPlayerAction();
+
+        if (action == PlayerAction.Stand)
+        {
+            Console.WriteLine($"Player stands at {game.PlayerTotal}");
+            break;
+        }
+
+        game.Hit();
+
+        if (game.PlayerIsBust)
+        {
+            Console.WriteLine($"Player busts at {game.PlayerTotal}");
+            break;
+        }
+        else
+            Console.WriteLine($"Player total: {game.PlayerTotal}");
+    }
+
+    if (!game.PlayerIsBust && !game.PlayerHasBlackjack)
+    {
+        Console.WriteLine($"Dealer total: {game.DealerTotal}");
+
+        var actions = game.PlayDealerTurn();
+
+        foreach (var (action, total) in actions)
+        {
+            switch (action)
+            {
+                case PlayerAction.Hit:
+                    Console.WriteLine("Dealer hits");
+                    Console.WriteLine($"Dealer total: {total}");
+                    break;
+                case PlayerAction.Stand:
+                    Console.WriteLine($"Dealer stands at {total}");
+                    break;
+                case PlayerAction.Bust:
+                    Console.WriteLine($"Dealer busts at {total}");
+                    break;
+            }
+        }
+    }
+
+    return game.DetermineWinner();
 }
