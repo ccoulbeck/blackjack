@@ -21,7 +21,13 @@ while (!game.PlayerTurnComplete)
 
     game.Hit();
 
-    Console.WriteLine($"Player total: {game.PlayerTotal}");
+    if (game.PlayerIsBust)
+    {
+        Console.WriteLine($"Player busts at {game.PlayerTotal}");
+        break;
+    }
+    else
+        Console.WriteLine($"Player total: {game.PlayerTotal}");
 }
 
 if (!game.PlayerIsBust && !game.PlayerHasBlackjack)
