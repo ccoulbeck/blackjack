@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using Blackjack.Models;
 
 namespace Blackjack.Game;
@@ -18,7 +19,11 @@ public class BlackjackGame
         _playerHand.IsBust ||
         _playerHand.Total == Blackjack;
 
+    public bool DealerTurnComplete => _dealerHand.Total >= DealerStandTotal;
+
     public bool PlayerIsBust => _playerHand.IsBust;
+
+    public bool DealerIsBust => _dealerHand.IsBust;
 
     public bool PlayerHasBlackjack => _playerHand.Total == Blackjack;
 
@@ -38,10 +43,22 @@ public class BlackjackGame
         _playerHand.Add(_deck.Draw());
     }
 
-    public void PlayDealerTurn()
+    public List<(PlayerAction Action, int Total)> PlayDealerTurn()
     {
+        var actions = new List<(PlayerAction, int)>();
+
         while (_dealerHand.Total < DealerStandTotal)
+        {
             _dealerHand.Add(_deck.Draw());
+            actions.Add(new(PlayerAction.Hit, _dealerHand.Total));
+        }
+
+        if (_dealerHand.Total > Blackjack)
+            actions.Add(new(PlayerAction.Bust, _dealerHand.Total));
+        else
+            actions.Add(new(PlayerAction.Stand, _dealerHand.Total));
+
+        return actions;
     }
 
     public GameResult DetermineWinner()

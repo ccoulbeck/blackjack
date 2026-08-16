@@ -28,7 +28,24 @@ if (!game.PlayerIsBust && !game.PlayerHasBlackjack)
 {
     Console.WriteLine($"Dealer total: {game.DealerTotal}");
 
-    game.PlayDealerTurn();
+    var actions = game.PlayDealerTurn();
+
+    foreach (var (action, total) in actions)
+    {
+        switch (action)
+        {
+            case PlayerAction.Hit:
+                Console.WriteLine("Dealer hits");
+                Console.WriteLine($"Dealer total: {total}");
+                break;
+            case PlayerAction.Stand:
+                Console.WriteLine($"Dealer stands at {total}");
+                break;
+            case PlayerAction.Bust:
+                Console.WriteLine($"Dealer busts at {total}");
+                break;
+        }
+    }
 }
 
 GameResult result = game.DetermineWinner();
