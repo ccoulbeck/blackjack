@@ -43,20 +43,20 @@ public class BlackjackGame
         _playerHand.Add(_deck.Draw());
     }
 
-    public List<(PlayerAction Action, int Total)> PlayDealerTurn()
+    public List<(GameAction Action, int Total)> PlayDealerTurn()
     {
-        var actions = new List<(PlayerAction, int)>();
+        var actions = new List<(GameAction, int)>();
 
         while (_dealerHand.Total < DealerStandTotal)
         {
             _dealerHand.Add(_deck.Draw());
-            actions.Add(new(PlayerAction.Hit, _dealerHand.Total));
+            actions.Add(new(GameAction.Hit, _dealerHand.Total));
         }
 
         if (_dealerHand.Total > Blackjack)
-            actions.Add(new(PlayerAction.Bust, _dealerHand.Total));
+            actions.Add(new(GameAction.Bust, _dealerHand.Total));
         else
-            actions.Add(new(PlayerAction.Stand, _dealerHand.Total));
+            actions.Add(new(GameAction.Stand, _dealerHand.Total));
 
         return actions;
     }

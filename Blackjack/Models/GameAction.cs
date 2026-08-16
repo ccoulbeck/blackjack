@@ -1,6 +1,6 @@
 namespace Blackjack.Models;
 
-public enum PlayerAction
+public enum GameAction
 {
     Hit,
     Stand,

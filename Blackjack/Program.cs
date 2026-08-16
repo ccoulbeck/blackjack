@@ -27,7 +27,7 @@ static void PrintHeader()
     Console.WriteLine("+---------------------------------------+");
 }
 
-static PlayerAction ReadPlayerAction()
+static GameAction ReadPlayerAction()
 {
     while (true)
     {
@@ -38,9 +38,9 @@ static PlayerAction ReadPlayerAction()
         switch (input)
         {
             case "h":
-                return PlayerAction.Hit;
+                return GameAction.Hit;
             case "s":
-                return PlayerAction.Stand;
+                return GameAction.Stand;
             default:
                 Console.WriteLine("Invalid input. Enter 'h' or 's'");
                 break;
@@ -64,7 +64,7 @@ static GameResult PlayRound(BlackjackGame game)
     {
         var action = ReadPlayerAction();
 
-        if (action == PlayerAction.Stand)
+        if (action == GameAction.Stand)
         {
             Console.WriteLine($"Player stands at {game.PlayerTotal}");
             break;
@@ -91,14 +91,14 @@ static GameResult PlayRound(BlackjackGame game)
         {
             switch (action)
             {
-                case PlayerAction.Hit:
+                case GameAction.Hit:
                     Console.WriteLine("Dealer hits");
                     Console.WriteLine($"Dealer total: {total}");
                     break;
-                case PlayerAction.Stand:
+                case GameAction.Stand:
                     Console.WriteLine($"Dealer stands at {total}");
                     break;
-                case PlayerAction.Bust:
+                case GameAction.Bust:
                     Console.WriteLine($"Dealer busts at {total}");
                     break;
             }
